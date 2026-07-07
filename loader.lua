@@ -229,7 +229,7 @@ AddSlider("Walk Speed", "SpeedValue", 16, 150, 30)
 AddToggle("Speed Hack", "SpeedHack")
 AddSlider("Jump Power", "JumpValue", 50, 300, 50)
 AddToggle("Jump Hack", "JumpHack")
-AddSlider("Fly Speed", "FlySpeed", 20, 150, 50)
+AddSlider("Fly Speed", "FlySpeed", 20, 300, 50)
 AddToggle("Fly (WASD+Space/Shift)", "Fly")
 
 AddDivider("Credits")
@@ -253,7 +253,7 @@ GitHub: plalettescripts/bigpaintball
 
 Features:
 - No Bullet Drop
-- Rapid Fire
+- Rapid Fire (no reload, max speed)
 - Right-Click Aimbot
 - Box ESP with Names
 - Tracers
@@ -277,35 +277,66 @@ CreditText.Parent = CreditFrame
 
 -- ==================== FEATURES ====================
 
--- No Bullet Drop - Remove gravity from paintballs
+-- No Bullet Drop + Rapid Fire (modify gun stats)
 task.spawn(function()
     while task.wait(0.1) do
-        if Settings.NoDrop then
+        if Settings.NoDrop or Settings.RapidFire then
             pcall(function()
-                for _, obj in ipairs(Workspace:GetDescendants()) do
-                    if obj:IsA("BasePart") and obj.GravityFactor and obj.GravityFactor > 0 then
-                        if obj.Name:lower():find("paint") or obj.Name:lower():find("bullet") or obj.Name:lower():find("ball") or obj.Name:lower():find("projectile") then
-                            obj.GravityFactor = 0
+                -- Modify equipped gun
+                local char = LocalPlayer.Character
+                if char then
+                    local tool = char:FindFirstChildOfClass("Tool")
+                    if tool then
+                        if Settings.RapidFire then
+                            -- Set fire rate to fastest possible
+                            local fireRate = tool:FindFirstChild("FireRate") or tool:FindFirstChild("Rate") or tool:FindFirstChild("Cooldown") or tool:FindFirstChild("Firerate")
+                            if fireRate and fireRate:IsA("NumberValue") then
+                                fireRate.Value = 0.01
+                            end
+                            -- Infinite ammo
+                            local ammo = tool:FindFirstChild("Ammo") or tool:FindFirstChild("MaxAmmo")
+                            if ammo and ammo:IsA("IntValue") then
+                                ammo.Value = 999
+                            end
+                            if ammo and ammo:IsA("NumberValue") then
+                                ammo.Value = 999
+                            end
+                        end
+                    end
+                end
+                
+                -- No Bullet Drop - find and modify all paintballs in workspace
+                if Settings.NoDrop then
+                    for _, obj in ipairs(Workspace:GetDescendants()) do
+                        if obj:IsA("BasePart") and obj:FindFirstChild("GravityFactor") then
+                            local name = obj.Name:lower()
+                            if name:find("paint") or name:find("bullet") or name:find("ball") or name:find("projectile") or name:find("pellet") then
+                                obj.GravityFactor = 0
+                                obj.Velocity = obj.Velocity * 2
+                            end
+                        end
+                    end
+                end
+                
+                -- Modify guns in backpack too
+                if Settings.RapidFire then
+                    for _, tool in ipairs(LocalPlayer.Backpack:GetChildren()) do
+                        if tool:IsA("Tool") then
+                            local fireRate = tool:FindFirstChild("FireRate") or tool:FindFirstChild("Rate") or tool:FindFirstChild("Cooldown") or tool:FindFirstChild("Firerate")
+                            if fireRate and fireRate:IsA("NumberValue") then
+                                fireRate.Value = 0.01
+                            end
+                            local ammo = tool:FindFirstChild("Ammo") or tool:FindFirstChild("MaxAmmo")
+                            if ammo and ammo:IsA("IntValue") then
+                                ammo.Value = 999
+                            end
+                            if ammo and ammo:IsA("NumberValue") then
+                                ammo.Value = 999
+                            end
                         end
                     end
                 end
             end)
-        end
-    end
-end)
-
--- Rapid Fire - Auto click when holding mouse
-task.spawn(function()
-    while task.wait(0.05) do
-        if Settings.RapidFire then
-            if UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) then
-                pcall(function()
-                    local tool = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Tool")
-                    if tool and tool:FindFirstChild("Activate") then
-                        tool:Activate()
-                    end
-                end)
-            end
         end
     end
 end)
