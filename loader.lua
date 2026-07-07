@@ -3,6 +3,7 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local LocalPlayer = Players.LocalPlayer
 local Camera = Workspace.CurrentCamera
@@ -16,20 +17,6 @@ local function ClearDrawings()
     for _, d in pairs(Drawings) do pcall(function() d:Remove() end) end
     Drawings = {}
 end
-
--- No Bullet Drop - Intercept fire and boost velocity
-local oldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
-    local method = getnamecallmethod()
-    local args = {...}
-    if method == "FireServer" and (tostring(self) == "Shoot" or tostring(self):find("Fire")) then
-        if Settings.NoDrop and args[1] and typeof(args[1]) == "Vector3" then
-            -- Boost speed by multiplying direction
-            local direction = args[1]
-            args[1] = direction * 10
-        end
-    end
-    return oldNamecall(self, unpack(args))
-end)
 
 -- GUI
 local gui = Instance.new("ScreenGui")
@@ -262,7 +249,7 @@ CreditText.Text = [[
 
 Created by: plalettescripts
 
-GitHub: plalettescripts/bpb2-script
+GitHub: plalettescripts/bigpaintball
 
 Features:
 - No Bullet Drop
@@ -288,6 +275,22 @@ CreditText.TextWrapped = true
 CreditText.Parent = CreditFrame
 
 -- ==================== FEATURES ====================
+
+-- No Bullet Drop
+task.spawn(function()
+    while task.wait(0.5) do
+        if Settings.NoDrop then
+            pcall(function()
+                for _, obj in ipairs(Workspace:GetDescendants()) do
+                    if obj:IsA("BasePart") and obj.Name:find("Paintball") or obj.Name:find("Bullet") then
+                        obj.GravityFactor = 0
+                        obj.Velocity = obj.Velocity * 10
+                    end
+                end
+            end)
+        end
+    end
+end)
 
 -- Aimbot
 UserInputService.InputBegan:Connect(function(input, processed)
