@@ -3,7 +3,6 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local LocalPlayer = Players.LocalPlayer
 local Camera = Workspace.CurrentCamera
@@ -26,7 +25,7 @@ gui.Parent = game:GetService("CoreGui")
 local Main = Instance.new("Frame")
 Main.Size = UDim2.new(0, 220, 0, 340)
 Main.Position = UDim2.new(0.82, 0, 0.25, 0)
-Main.BackgroundColor3 = Color3.fromRGB(20, 25, 35)
+Main.BackgroundColor3 = Color3.fromRGB(30, 20, 20)
 Main.BorderSizePixel = 0
 Main.Active = true
 Main.Draggable = true
@@ -56,7 +55,7 @@ end)
 local Mini = Instance.new("Frame")
 Mini.Size = UDim2.new(0, 180, 0, 40)
 Mini.Position = UDim2.new(0.5, -90, 0.02, 0)
-Mini.BackgroundColor3 = Color3.fromRGB(20, 25, 35)
+Mini.BackgroundColor3 = Color3.fromRGB(30, 20, 20)
 Mini.BorderSizePixel = 0
 Mini.Visible = false
 Mini.Active = true
@@ -68,7 +67,7 @@ local MiniText = Instance.new("TextLabel")
 MiniText.Size = UDim2.new(1, 0, 1, 0)
 MiniText.BackgroundTransparency = 1
 MiniText.TextColor3 = Color3.fromRGB(255, 100, 60)
-MiniText.Text = "🎨 BPB2 - Press CTRL"
+MiniText.Text = "plalettescripts - Press CTRL"
 MiniText.Font = Enum.Font.SourceSansBold
 MiniText.TextSize = 12
 MiniText.Parent = Mini
@@ -84,7 +83,7 @@ end)
 -- Title
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1, 0, 0, 30)
-Title.BackgroundColor3 = Color3.fromRGB(30, 35, 45)
+Title.BackgroundColor3 = Color3.fromRGB(40, 25, 25)
 Title.TextColor3 = Color3.fromRGB(255, 100, 50)
 Title.Text = "🎨 Big Paintball 2 🎨"
 Title.Font = Enum.Font.SourceSansBold
@@ -110,7 +109,7 @@ end)
 local Scroll = Instance.new("ScrollingFrame")
 Scroll.Size = UDim2.new(1, -10, 1, -38)
 Scroll.Position = UDim2.new(0, 5, 0, 33)
-Scroll.BackgroundColor3 = Color3.fromRGB(25, 30, 40)
+Scroll.BackgroundColor3 = Color3.fromRGB(35, 22, 22)
 Scroll.BorderSizePixel = 0
 Scroll.ScrollBarThickness = 3
 Scroll.ScrollBarImageColor3 = Color3.fromRGB(255, 80, 40)
@@ -126,7 +125,7 @@ List.Parent = Scroll
 local function AddDivider(text)
     local Div = Instance.new("Frame")
     Div.Size = UDim2.new(1, -2, 0, 20)
-    Div.BackgroundColor3 = Color3.fromRGB(40, 35, 50)
+    Div.BackgroundColor3 = Color3.fromRGB(50, 30, 30)
     Div.Parent = Scroll
     Instance.new("UICorner", Div).CornerRadius = UDim.new(0, 4)
     local Lbl = Instance.new("TextLabel")
@@ -142,7 +141,7 @@ end
 local function AddToggle(name, key)
     local Frame = Instance.new("Frame")
     Frame.Size = UDim2.new(1, -2, 0, 30)
-    Frame.BackgroundColor3 = Color3.fromRGB(32, 37, 47)
+    Frame.BackgroundColor3 = Color3.fromRGB(42, 28, 28)
     Frame.Parent = Scroll
     Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 4)
 
@@ -150,7 +149,7 @@ local function AddToggle(name, key)
     Label.Size = UDim2.new(0.55, 0, 1, 0)
     Label.Position = UDim2.new(0.03, 0, 0, 0)
     Label.BackgroundTransparency = 1
-    Label.TextColor3 = Color3.fromRGB(220, 220, 230)
+    Label.TextColor3 = Color3.fromRGB(240, 220, 220)
     Label.Text = name .. " : OFF"
     Label.Font = Enum.Font.SourceSansSemibold
     Label.TextSize = 12
@@ -160,7 +159,7 @@ local function AddToggle(name, key)
     local Btn = Instance.new("TextButton")
     Btn.Size = UDim2.new(0, 38, 0, 20)
     Btn.Position = UDim2.new(0.9, -38, 0, 5)
-    Btn.BackgroundColor3 = Color3.fromRGB(50, 55, 65)
+    Btn.BackgroundColor3 = Color3.fromRGB(60, 40, 40)
     Btn.Text = ""
     Btn.Parent = Frame
     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 10)
@@ -170,7 +169,7 @@ local function AddToggle(name, key)
         on = not on
         Settings[key] = on
         Label.Text = name .. " : " .. (on and "ON" or "OFF")
-        Btn.BackgroundColor3 = on and Color3.fromRGB(255, 80, 40) or Color3.fromRGB(50, 55, 65)
+        Btn.BackgroundColor3 = on and Color3.fromRGB(255, 80, 40) or Color3.fromRGB(60, 40, 40)
     end)
 end
 
@@ -178,7 +177,7 @@ local function AddSlider(name, key, min, max, default)
     Settings[key] = default
     local Frame = Instance.new("Frame")
     Frame.Size = UDim2.new(1, -2, 0, 48)
-    Frame.BackgroundColor3 = Color3.fromRGB(32, 37, 47)
+    Frame.BackgroundColor3 = Color3.fromRGB(42, 28, 28)
     Frame.Parent = Scroll
     Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 4)
 
@@ -186,7 +185,7 @@ local function AddSlider(name, key, min, max, default)
     Label.Size = UDim2.new(1, 0, 0, 18)
     Label.Position = UDim2.new(0.03, 0, 0, 3)
     Label.BackgroundTransparency = 1
-    Label.TextColor3 = Color3.fromRGB(220, 220, 230)
+    Label.TextColor3 = Color3.fromRGB(240, 220, 220)
     Label.Text = name .. " : " .. tostring(default)
     Label.Font = Enum.Font.SourceSans
     Label.TextSize = 12
@@ -196,7 +195,7 @@ local function AddSlider(name, key, min, max, default)
     local Input = Instance.new("TextBox")
     Input.Size = UDim2.new(0.3, 0, 0, 22)
     Input.Position = UDim2.new(0.35, 0, 0, 23)
-    Input.BackgroundColor3 = Color3.fromRGB(50, 55, 65)
+    Input.BackgroundColor3 = Color3.fromRGB(50, 35, 35)
     Input.TextColor3 = Color3.fromRGB(255, 200, 180)
     Input.Text = tostring(default)
     Input.Font = Enum.Font.SourceSans
@@ -218,6 +217,7 @@ end
 -- Build GUI
 AddDivider("Combat")
 AddToggle("No Bullet Drop", "NoDrop")
+AddToggle("Rapid Fire", "RapidFire")
 AddToggle("Aimbot (Right Click)", "Aimbot")
 
 AddDivider("Visuals")
@@ -234,8 +234,8 @@ AddToggle("Fly (WASD+Space/Shift)", "Fly")
 
 AddDivider("Credits")
 local CreditFrame = Instance.new("Frame")
-CreditFrame.Size = UDim2.new(1, -2, 0, 150)
-CreditFrame.BackgroundColor3 = Color3.fromRGB(32, 37, 47)
+CreditFrame.Size = UDim2.new(1, -2, 0, 180)
+CreditFrame.BackgroundColor3 = Color3.fromRGB(42, 28, 28)
 CreditFrame.Parent = Scroll
 Instance.new("UICorner", CreditFrame).CornerRadius = UDim.new(0, 6)
 
@@ -243,7 +243,7 @@ local CreditText = Instance.new("TextLabel")
 CreditText.Size = UDim2.new(1, -16, 1, -16)
 CreditText.Position = UDim2.new(0, 8, 0, 8)
 CreditText.BackgroundTransparency = 1
-CreditText.TextColor3 = Color3.fromRGB(220, 220, 230)
+CreditText.TextColor3 = Color3.fromRGB(240, 220, 220)
 CreditText.Text = [[
 🎨 Big Paintball 2 🎨
 
@@ -253,6 +253,7 @@ GitHub: plalettescripts/bigpaintball
 
 Features:
 - No Bullet Drop
+- Rapid Fire
 - Right-Click Aimbot
 - Box ESP with Names
 - Tracers
@@ -276,18 +277,35 @@ CreditText.Parent = CreditFrame
 
 -- ==================== FEATURES ====================
 
--- No Bullet Drop
+-- No Bullet Drop - Remove gravity from paintballs
 task.spawn(function()
-    while task.wait(0.5) do
+    while task.wait(0.1) do
         if Settings.NoDrop then
             pcall(function()
                 for _, obj in ipairs(Workspace:GetDescendants()) do
-                    if obj:IsA("BasePart") and obj.Name:find("Paintball") or obj.Name:find("Bullet") then
-                        obj.GravityFactor = 0
-                        obj.Velocity = obj.Velocity * 10
+                    if obj:IsA("BasePart") and obj.GravityFactor and obj.GravityFactor > 0 then
+                        if obj.Name:lower():find("paint") or obj.Name:lower():find("bullet") or obj.Name:lower():find("ball") or obj.Name:lower():find("projectile") then
+                            obj.GravityFactor = 0
+                        end
                     end
                 end
             end)
+        end
+    end
+end)
+
+-- Rapid Fire - Auto click when holding mouse
+task.spawn(function()
+    while task.wait(0.05) do
+        if Settings.RapidFire then
+            if UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1) then
+                pcall(function()
+                    local tool = LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Tool")
+                    if tool and tool:FindFirstChild("Activate") then
+                        tool:Activate()
+                    end
+                end)
+            end
         end
     end
 end)
